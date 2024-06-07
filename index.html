@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenBSD</title>
+    <!-- Link to your CSS file for styling -->
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .sch {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        #process-table {
+            border-collapse: collapse;
+            width: 60%;
+            margin-top: 20px;
+        }
+        #h {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .process-input {
+            margin: 0px;
+        }
+        .timeline {
+            display: flex;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            width: 80%;
+            height: 100px;
+            overflow-x: scroll;
+            position: relative;
+        }
+        .timeline div {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: width 0.5s;
+        }
+        .statistics {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #sch-button
+        {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+    padding: 6px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    margin-right: 15px;
+    transition-duration: 0.4s;
+        }
+        #sch-button:hover
+        {
+            background-color: #e7e7e7;
+        }
+        #input-table
+        {
+            border: none;
+            padding: 5px;
+        }
+        #queue {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .chair {
+            width: 80px;
+            height: 80px;
+            border: 2px solid black;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .occupied {
+            background-color: lightgreen;
+        }
+        #fullMessage {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="https://www.openbsd.org/" target="_blank">
+            <img src="./openbsdlogo.png" alt="OpenBSD Logo" height="100"> <!-- Adjust height as needed -->
+        </a>
+        <h1>Welcome to OpenBSD</h1>
+        <!-- Navigation Menu -->
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#syscalls">System Calls</a></li>
+                <li><a href="#scheduling">Scheduling</a></li>
+                <li><a href="#synchronization">Synchronization</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Team Members</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+    
+
+    <section id="features">
+        <!-- Add feature descriptions here -->
+        <p><section id="features">
+            <h2>Features</h2>
+            <!-- Add feature descriptions here -->
+            <p><strong>Security Focus:</strong> OpenBSD is renowned for its emphasis on security. Its development process prioritizes code correctness, proactive security auditing, and the implementation of security features. The system is designed with security in mind from the ground up.</p>
+            <p><strong>Proactive Security Measures:</strong> OpenBSD incorporates numerous proactive security measures. These include technologies like cryptography, privilege separation, and secure defaults. OpenBSD also implements security features such as Address Space Layout Randomization (ASLR) and Stack Smashing Protection (SSP) to mitigate common vulnerabilities.</p>
+            <p><strong>Wide Hardware Support:</strong> OpenBSD supports a broad range of hardware platforms, including x86, ARM, SPARC, and more. This makes it suitable for various computing environments, from desktops and servers to embedded systems and appliances.</p>
+            <p><strong>Ports and Packages System:</strong> OpenBSD features a ports system for building and installing third-party software from source. It also provides a package system for installing precompiled binary packages. This flexibility allows users to easily extend the functionality of their systems with additional software.</p>
+            <p><strong>Documentation:</strong> OpenBSD is accompanied by extensive documentation, including manuals, guides, and FAQs. The documentation is known for its clarity and completeness, making it easier for users to understand and configure the system.</p>
+            <p><strong>Reliability and Stability:</strong> OpenBSD is known for its reliability and stability. The system undergoes rigorous testing and quality assurance to ensure that it performs consistently and predictably, even in demanding environments.</p>
+        <p>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>OpenBSD</th>
+                    <th>Linux</th>
+                </tr>
+                <tr>
+                    <td>Security Focus</td>
+                    <td>Emphasizes security with proactive auditing and features</td>
+                    <td>Security varies between distributions; some prioritize it</td>
+                </tr>
+                <tr>
+                    <td>Codebase</td>
+                    <td>Clean and well-documented</td>
+                    <td>Diverse codebases, varying in cleanliness and documentation</td>
+                </tr>
+                <tr>
+                    <td>Proactive Security</td>
+                    <td>Extensive use of cryptography, privilege separation</td>
+                    <td>Features like SELinux and AppArmor for security</td>
+                </tr>
+                <tr>
+                    <td>Hardware Support</td>
+                    <td>Support for multiple architectures</td>
+                    <td>Extensive hardware support, including diverse architectures</td>
+                </tr>
+                <tr>
+                    <td>Ports/Packages</td>
+                    <td>Ports system for building from source, package system</td>
+                    <td>Package managers like apt, yum, dnf, and others</td>
+                </tr>
+                <tr>
+                    <td>System</td>
+                    <td>Extensive and clear manuals, guides, FAQs</td>
+                    <td>Documentation varies between distributions</td>
+                </tr>
+                <tr>
+                    <td>Community Support</td>
+                    <td>Dedicated and active community</td>
+                    <td>Large and diverse community, varying by distribution</td>
+                </tr>
+                <tr>
+                    <td>Reliability and Stability</td>
+                    <td>Known for reliability and stability</td>
+                    <td>Stability varies depending on distribution and configuration</td>
+                </tr>
+            </table>
+        </p>
+        <!-- Add more features as needed -->
+        </section>
+    </section>
+
+    <section id="commands">
+        <p><section id="commands">
+            <h2>Commands</h2>
+            <!-- Add command descriptions here -->
+        </p>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>OpenBSD</th>
+                <th>Linux</th>
+            </tr>
+            <tr>
+                <td>pfctl</td>
+                <td>Interact with Packet Filter (pf) firewall. Manage firewall rules, view state table, control network filtering.</td>
+                <td>iptables: Manage firewall rules.</td>
+            </tr>
+            <tr>
+                <td>smtpd</td>
+                <td>Built-in SMTP daemon for handling email. Part of OpenSMTPD suite.</td>
+                <td>Postfix/Sendmail: Common mail transfer agents (MTAs) for sending and receiving email.</td>
+            </tr>
+            <tr>
+                <td>httpd</td>
+                <td>Built-in HTTP server for serving static content, supporting FastCGI.</td>
+                <td>Apache/Nginx: Popular web servers with broader feature sets.</td>
+            </tr>
+            <tr>
+                <td>relayd</td>
+                <td>Daemon for load balancing, SSL termination, reverse proxying.</td>
+                <td>HAProxy: Load balancer, SSL terminator, and reverse proxy.</td>
+            </tr>
+            <tr>
+                <td>signify</td>
+                <td>Tool for cryptographic signing and verification of files.</td>
+                <td>GnuPG: General-purpose encryption and signing tool.</td>
+            </tr>
+            <tr>
+                <td>syspatch</td>
+                <td>Utility for applying security patches to the base system.</td>
+                <td>apt, yum, dnf, etc.: Package managers that handle system updates and security patches.</td>
+            </tr>
+            <tr>
+                <td>makemandb</td>
+                <td>Generate the man page database.</td>
+                <td>mandb: Similar functionality for generating man page databases.</td>
+            </tr>
+            <tr>
+                <td>pkg_info</td>
+                <td>Display information about installed packages in OpenBSD package system.</td>
+                <td>dpkg, rpm: Package managers for Debian-based and RPM-based Linux distributions, respectively.</td>
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section id="syscalls">
+        <p>
+        <section>
+        <h2>System Calls</h2>
+    </p>
+        <!-- Add system call descriptions here -->
+        <p><strong>pledge():</strong> This system call restricts the privileges of a process after initialization. It is used for sandboxing purposes, allowing processes to limit their own privileges.</p>
+        <p><strong>unveil():</strong> Another sandboxing mechanism, unveil() restricts filesystem access for a process. It allows processes to specify which directories they can access, enhancing security by reducing attack surfaces.</p>
+        <p><strong>ktrace() and kdump():</strong> These system calls are used for kernel tracing and debugging purposes. They allow tracing of system calls, signals, and other kernel events.</p>
+        <p><strong>getentropy():</strong> This system call retrieves cryptographically strong random data from the kernel. It is often used for generating cryptographic keys or for seeding random number generators.</p>
+        <p><strong>pledge() and unveil() variations:</strong> While Linux might have similar security features, OpenBSD's pledge() and unveil() system calls are unique to the OpenBSD ecosystem, providing robust mechanisms for sandboxing and access control.</p>
+        <p>However, in terms of system calls, there isn't much difference between OpenBSD and Linux.</p>
+    </section>
+    </section>
+
+    <section id="scheduling">
+        <section>
+        <p>
+        <h2 >Scheduling</h2>
+         </p>
+        <!-- Add scheduling information here -->
+        <p><strong>Priority-based Scheduling:</strong>  In OpenBSD, processes are managed using the Shortest Remaining Time First (SRTF) scheduling algorithm. This approach selects the process with the shortest remaining execution time for CPU execution, optimizing for quick turnaround of short tasks.</p>
+        <p><strong>Time-sharing and Real-time Scheduling:</strong> OpenBSD supports both time-sharing and real-time scheduling within the SRTF framework. Time-sharing scheduling ensures a fair distribution of CPU resources among processes, while real-time scheduling provides deterministic behavior for time-sensitive tasks.</p>
+        <p><strong>Scheduling Classes:</strong>  OpenBSD incorporates various scheduling classes to cater to different types of workloads:
+            <ul>
+                <li><p>Time-sharing (TS): Used for regular user processes.</p></li>
+                <li><p>Interactive (IA): Optimized for interactive processes that require low-latency responses.</p></li>
+                <li><p> Batch (B): Designed for CPU-bound batch processing tasks.</p></li>
+                <li><p>Real-time (RT): Supports real-time processes with strict timing requirements.</p></li>
+            </ul>
+        </p>
+    <div class="sch">
+    <h1 style="margin-top: 30px;margin-bottom: 20px;font-size: 30px;">SRTF Scheduling Simulation</h1>
+    <div>
+        <table id="input-table">
+            <tr>
+                <td id="input-table" style="text-align: center;">
+                    <label for="arrival-time">Arrival Time:</label>
+                </td>
+                <td id="input-table" >
+                    <input type="number" id="arrival-time" class="process-input">
+                </td>
+            </tr>
+            <tr>
+                <td id="input-table" style="text-align: center;">
+                    <label for="burst-time">Burst Time:</label>
+                </td>
+                <td id="input-table">
+                    <input type="number" id="burst-time" class="process-input">
+                </td>
+            </tr>
+        </table>
+        
+<br>
+        <button onclick="addProcess()" id="sch-button">Add Process</button>
+        <button onclick="undoProcess()" id="sch-button">Undo</button>
+        <button onclick="resetSimulation()" id="sch-button">Reset</button>
+        <button onclick="startSimulation()" id="sch-button">Start Simulation</button>
+    </div>
+    
+    <table id="process-table">
+        <thead>
+            <tr id="h">
+                <th id="h">Process</th>
+                <th id="h">Arrival Time</th>
+                <th id="h">Burst Time</th>
+                <th id="h">Completion Time</th>
+                <th id="h">Waiting Time</th>
+                <th id="h">Turnaround Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="timeline" id="timeline">
+        <!-- Timeline blocks will be added here -->
+    </div>
+    <div class="statistics">
+        <p>Average Waiting Time: <span id="avg-waiting-time">0.00</span></p>
+        <p>Average Turnaround Time: <span id="avg-turnaround-time">0.00</span></p>
+    </div>
+</div>
+</section>
+    </section>
+
+    <section id="synchronization">
+        <section>
+        <h2>Synchronization Mechanisms</h2>
+        <p><strong>Mutexes:</strong> OpenBSD provides mutexes (mutual exclusion locks) as a fundamental synchronization mechanism. Mutexes allow only one thread at a time to access a shared resource, preventing concurrent modification and ensuring data integrity.</p>
+        <p><strong>Read-Write Locks:</strong> OpenBSD supports read-write locks, which allow multiple threads to concurrently read a shared resource while ensuring exclusive access for writing. This mechanism is useful for scenarios where reads significantly outnumber writes.</p>
+        <p><strong>Condition Variables:</strong> Condition variables enable threads to wait for a particular condition to become true before proceeding. OpenBSD provides condition variables to coordinate the execution of threads and avoid busy-waiting.</p>
+        <p><strong>Atomic Operations:</strong> OpenBSD includes support for atomic operations, such as atomic increment and compare-and-swap (CAS), which allow for synchronization without requiring traditional locking mechanisms. Atomic operations are used for implementing lock-free data structures and efficient synchronization primitives.</p>
+        <p><strong>Spinlocks:</strong> Spinlocks are simple synchronization primitives that busy-wait until they can acquire a lock. OpenBSD provides spinlocks for low-level synchronization purposes, but their use is generally discouraged due to potential performance issues on multiprocessor systems.</p>
+        <p><strong>Synchronization Primitives in Userland:</strong> In addition to kernel-level synchronization mechanisms, OpenBSD provides synchronization primitives for userland applications, such as POSIX mutexes, condition variables, and semaphores. These primitives facilitate coordination among threads and processes in user-space applications.</p>
+        <p><strong>Locking Hierarchy:</strong> OpenBSD follows a locking hierarchy to prevent deadlock situations. Locks should be acquired in a consistent order to avoid circular dependencies, and nested locking is carefully managed to prevent deadlock.</p>
+        <p><strong>Inter-Process Communication (IPC):</strong> OpenBSD supports various IPC mechanisms, such as message queues, semaphores, and shared memory, for communication and synchronization between processes. These mechanisms enable inter-process coordination and data exchange while ensuring data consistency and integrity.</p>
+
+<div style="text-align: center; margin-bottom: 50px;">
+    <h1 style="margin-top: 30px;margin-bottom: 20px;font-size: 30px;">Akshaya Centre Simulator</h1>
+   <center> <div style="width: 1300px;text-align: left;">
+    <p>Akshaya Centers are a significant initiative by the Government of Kerala, India. Launched in 2002, these centers aim to bridge the digital divide by providing various e-governance services and facilitating access to information and communication technologies (ICT) across the state. </p>
+    Synchronization is crucial in the Queue Simulator to ensure the orderly and efficient handling of customers. Here’s how synchronization mechanisms are used in this scenario:
+    <br>
+    <br>
+    <strong>Customer Addition and Queue Management:</strong>
+    <br>
+    Queue Array: The queue array holds the list of customers currently in the queue. This array is dynamically updated whenever a new customer is added or processed.
+    <br>Customer Count: The customerCount variable assigns unique identifiers to each customer, ensuring that every customer has a distinct number.
+    <br>
+    <br>
+    <strong>
+    Displaying Queue Status:
+</strong>
+    <br>
+    Update Queue Display: The updateQueueDisplay function is called whenever there is a change in the queue. This function iterates through each chair element, updating the display to reflect the current state of the queue.
+    <br>
+    Last Box Check: Within the updateQueueDisplay function, the system checks if the last chair is occupied. If it is not, it hides the "Queue is full" message.
+    <br>
+    <br>
+    <strong>
+    Processing Customers:
+</strong>
+    <br>
+    Processing Flag: The processing flag ensures that only one customer is processed at a time. When a customer is being processed, this flag is set to true, preventing other customers from being processed simultaneously.
+    <br>
+    setTimeout: Simulates the processing time by using a delay. After processing, the flag is reset, allowing the next customer to be processed.
+    <br>
+    <br>
+    <strong>
+    Handling Full Queue:
+</strong>
+    <br>
+    Full Queue Message: The system displays a "Queue is full" message when all chairs are occupied. This message is shown by setting the textContent and display properties of the fullMessage element.
+    <br>
+    Hiding Full Queue Message: As soon as there is space available in the queue (when the last chair is empty), the hideFullMessage function is called to remove the "Queue is full" message.
+    <br>
+    <br>
+    <strong>
+    Reset Functionality:</strong>
+    <br>
+    Reset Queue: The resetQueue function clears the queue, resets the customer count, and updates the display. It also ensures that the "Queue is full" message is hidden, preparing the system for new customers.
+<br>
+<br>
+</div></center>
+    <button onclick="addCustomer()" id="sch-button" >Add Customer</button>
+    <button onclick="resetQueue()" id="sch-button" >Reset Queue</button>
+    <div id="queue" style="margin-bottom: 15px;">
+        <div style="margin-top: -20px;"><img src="./help-desk-clipart-4.jpg" alt="" style="height: 120px;"></div>
+        <div class="chair" id="chair1"></div>
+        <div class="chair" id="chair2"></div>
+        <div class="chair" id="chair3"></div>
+        <div class="chair" id="chair4"></div>
+        <div class="chair" id="chair5"></div>
+        <div class="chair" id="chair6"></div>
+        <div class="chair" id="chair7"></div>
+        <div class="chair" id="chair8"></div>
+        <div class="chair" id="chair9"></div>
+        <div class="chair" id="chair10"></div>
+    </div>
+    <p id="status">Status: Waiting for customers...</p>
+    <p id="fullMessage"></p> <!-- New element for displaying full queue message -->
+</div>
+</section>
+    </section>
+    
+
+    <section id="about">
+        <section>
+        <h2>About</h2>
+        <!-- Add information about OpenBSD and its creators -->
+        <p>OpenBSD is a Unix-like operating system renowned for its robust security features and proactive approach to code auditing. Developed with a strong emphasis on security, it incorporates measures like cryptography, privilege separation, and secure defaults. OpenBSD boasts wide hardware support, accommodating various platforms from desktops to embedded systems. Its ports and packages system facilitates easy software installation and extension. Extensive documentation ensures user-friendly configuration and operation. Known for reliability and stability, OpenBSD undergoes rigorous testing, making it a favored choice for security-conscious users and organizations alike.</p>
+        <p></p>
+    </section>
+    </section>
+
+    <section id="contact">
+        <section>
+        <h2>Team Members</h2>
+        <!-- Add contact details here -->
+        <div class="contact-info">
+            <p>S GIRISH KUMAR</p>
+            <p><span class="roll-number">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CB.EN.U4CSE22150</span></p>
+        </div>
+        <div class="contact-info">
+            <p>MEKHANATH S KUMAR</p>
+            <p><span class="roll-number">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CB.EN.U4CSE22135</span></p>
+        </div>
+        <div class="contact-info"> 
+            <p>ABHINAV K</p>
+            <p><span class="roll-number">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CB.EN.U4CSE22161</span></p>
+        </div>
+        <div class="contact-info">
+            <p>ANJO PAUL</p>
+            <p><span class="roll-number">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CB.EN.U4CSE22103</span></p>
+        </div>
+    </section>
+    </section>
+    
+
+    <footer>
+        <!-- Copyright and other footer information -->
+        <p>&copy; OS Project</p>
+    </footer>
+    <script src="./srtf.js"></script>
+    <script src="./sync.js"></script>
+</body>
+</html>
